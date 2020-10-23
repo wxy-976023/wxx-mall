@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-    <keep-alive>
+    <!-- exclude写的应该是name值 -->
+    <keep-alive exclude="Details">
       <router-view></router-view>
     </keep-alive>
     <main-tabbar></main-tabbar>
