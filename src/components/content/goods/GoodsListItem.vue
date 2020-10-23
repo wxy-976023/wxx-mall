@@ -1,6 +1,6 @@
 <template>
-    <div class="goods-list-item">
-        <img :src="goodsitem.show.img" alt="">
+    <div class="goods-list-item" @click="itemClick">
+        <img :src="goodsitem.show.img" alt="" @load="ImageLoad">
         <div class="goods-info">
             <p>{{goodsitem.title}}</p>
             <span class="price">{{goodsitem.price}}</span>
@@ -18,6 +18,14 @@
                 default(){
                     return []
                 }
+            }
+        },
+        methods:{
+            ImageLoad(){
+                this.$bus.$emit('itemImageLoad')
+            },
+            itemClick(){
+                this.$router.push('/details/'+this.goodsitem.iid)
             }
         }
     }
