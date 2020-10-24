@@ -36,10 +36,11 @@ ref如果绑定再元素上的，那么this.$refs.refname获取到得是一个�
     import TabControl from 'components/content/tabControl/TabControl';
     import GoodsList from 'components/content/goods/GoodsList';
     import Scroll from 'components/common/scroll/Scroll';
-    import BackTop from 'components/content/backTop/BackTop';
+    // import BackTop from 'components/content/backTop/BackTop';
 
     import {getHomeMultidata,getHomeGoods} from "network/home";
     import {debounce} from 'common/utils'
+    import {itemListenerMixin,backTopMinin} from 'common/mixin'
     
 
     export default {
@@ -52,8 +53,10 @@ ref如果绑定再元素上的，那么this.$refs.refname获取到得是一个�
             TabControl,
             GoodsList,
             Scroll,
-            BackTop
+            // BackTop
         },
+        //mixins：混入对象，组件之间复用代码，继承只能用于类代码的复用
+        mixins:[itemListenerMixin,backTopMinin],
         data(){
             return {
                 banners:[],
@@ -64,7 +67,6 @@ ref如果绑定再元素上的，那么this.$refs.refname获取到得是一个�
                     'sell':{page:0,list:[]}
                 },
                 currentype:'pop',
-                isshowBackTop:false,
                 tabOffseTop:0,
                 isTabFixed:false,
                 saveY:0
@@ -75,12 +77,20 @@ ref如果绑定再元素上的，那么this.$refs.refname获取到得是一个�
                 return this.goods[this.currentype].list
             }
         },
-        actived(){
-            this.$refs.scroll.scrollTo(0,this.saveY,0)
-            this.$refs.scroll.refresh()
+        activated(){
+            this.$refs.scroll && this.$refs.scroll.scrollTo(0,this.saveY,0)
+            this.$refs.scroll && this.$refs.scroll.refresh()
+            // console.log('active')
+            // console.log(this.saveY)
         },
-        unactived(){
-            this.saveY=this.$refs.scroll.getScrollY()
+        //离开首页时
+        deactivated(){
+            // console.log('deactive')
+            // console.log(this.saveY)
+            //1.保存Y值
+            this.saveY=this.$refs.scroll.getScrollY();
+            //2.取消全局事件监听
+            this.$bus.$off('itemImgLoad',this.itemImgListener);
         },
         created(){
             //1.请求多个数据
@@ -97,10 +107,14 @@ ref如果绑定再元素上的，那么this.$refs.refname获取到得是一个�
             //     this.$refs.scroll.refresh()})
 
             //监听事件中-加入防抖动函数：
-            const refresh =debounce(this.$refs.scroll.refresh,500)
-            this.$bus.$on('itemImageLoad',()=>{
-                refresh()
-            })
+            // const refresh =debounce(this.$refs.scroll.refresh,500)
+
+            // 对监听事件进行保存
+            // this.itemImgListener = ()=>{
+            //     refresh()
+            // }
+            // this.$bus.$on('itemImageLoad',this.itemImgListener)
+            // console.log('hmounted')
         },
 
             methods:{
@@ -122,18 +136,8 @@ ref如果绑定再元素上的，那么this.$refs.refname获取到得是一个�
                     this.$refs.tabControl1.currentIndex=index;
                     this.$refs.tabControl2.currentIndex=index;
                 },
-                backClick(){
-
-                    //其一：直接访问
-                    // 拿到scroll组件里的scroll属性的scrollTo方法
-                    //第三个参数表示延迟时间
-                    // this.$refs.scroll.scroll.scrollTo(0,0,500)
-
-                    //其二，在scroll.vue中封装起来访问其方法
-                    this.$refs.scroll.scrollTo(0,0)
-                },
                 contentScroll(position){
-                    this.isshowBackTop=(-position.y) > 1000,
+                    this.listenShowBackTop(position)
                     this.isTabFixed=(-position.y)>this.tabOffseTop
                 },
                 LoadMore(){
