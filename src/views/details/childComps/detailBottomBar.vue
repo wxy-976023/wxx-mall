@@ -26,7 +26,7 @@
         name:'DetailBottomBar',
         methods:{
           addToCart(){
-            this.$emit('addToCart')
+            this.$emit('addToCart') 
           }
         }
     }

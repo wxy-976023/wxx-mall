@@ -180,7 +180,7 @@
                 product.iid = this.iid;
                 //2.将商品添加到购物车中
                 // this.$store.commit('addCart',product) mutations时用commit
-                this.$store.dispatch('addCart',product)
+                this.$store.dispatch('addCart',product) 
             }
         }
     }
