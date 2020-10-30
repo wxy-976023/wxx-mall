@@ -1,3 +1,4 @@
+//px2vw：1.安装 2.在此文件中部署
 module.exports = {
   plugins: {
     autoprefixer: {},
