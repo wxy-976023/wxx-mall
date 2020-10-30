@@ -34,6 +34,8 @@
     import {debounce} from 'common/utils'
     import {itemListenerMixin,backTopMinin} from 'common/mixin'
 
+    import { mapActions}  from 'vuex'
+
     export default {
         name:'Details',
         components:{
@@ -133,6 +135,7 @@
             this.$bus.$off('itemImageLoad',this.itemImgListener)
         },
         methods: {
+            ...mapActions(['addCart']),
             imageLoad(){
                 this.$refs.scroll.refresh()
                 this.gethemeTopYs()
@@ -177,10 +180,16 @@
                 product.title = this.goodsInfo.titleclick;
                 product.desc = this.goodsInfo.desc;
                 product.price = this.goodsInfo.realPrice;
-                product.iid = this.iid;
+                product.iid = this.iid
                 //2.将商品添加到购物车中
                 // this.$store.commit('addCart',product) mutations时用commit
-                this.$store.dispatch('addCart',product) 
+                // this.$store.dispatch('addCart',product).then(res=>{//then调用promise
+                //     console.log(res)
+                // })
+                //映射actions里的
+                this.addCart(product).then(res=>{
+                    this.$toast.show(res,2000)
+                })
             }
         }
     }

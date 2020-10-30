@@ -1,15 +1,20 @@
 <template>
     <div class="cart">
+        <!-- 导航 -->
         <nav-bar class="cart-nav">
             <div slot="center">购物车({{length}})</div>
         </nav-bar>
+        <!-- 列表 -->
         <cart-list></cart-list>
+        <!-- 底部 -->
+        <cart-bottom-bar></cart-bottom-bar>
     </div>
 </template>
 
 <script>
     import NavBar from 'components/common/navbar/NavBar'
     import CartList from './childComps/cartList'
+    import CartBottomBar from './childComps/cartBottomBar'
 
     import { mapGetters } from 'vuex'
 
@@ -17,7 +22,8 @@
         name:'Cart',
         components:{
             NavBar,
-            CartList
+            CartList,
+            CartBottomBar
         },
         computed:{
             //两种语法：直接写数组（名字相同互相一一对应）；对象形式：名字可以自起

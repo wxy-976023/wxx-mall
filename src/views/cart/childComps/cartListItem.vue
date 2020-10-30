@@ -15,7 +15,7 @@
           <div class="item-desc" >{{product.desc}}</div>
           <div class="item-msg">颜色：{{product.productStyleMsg}}，&nbsp;尺码：{{product.productSizeMsg}}</div>
           <div class="info-bottom">
-            <div class="item-price left">¥{{product.realPrice}}</div>
+            <div class="item-price left">¥{{product.price}}</div>
             <div class="item-count right">
               <div>－</div>
               <div>{{product.currentCounts}}</div>

@@ -23,19 +23,18 @@
             ...mapGetters(['cartList'])
         },
         activated(){
-            console.log('=======')
-            this.$refs.scroll.refresh()
+            // console.log('=======')
+            this.$refs.scroll && this.$refs.scroll.refresh()
         }
     }
 </script>
 
 <style scoped>
     .cartlist {
-        /* position: relative; */
-        height:  calc(100vh - 44px - 49px );
+        position: relative;
     }
     .content{
-        height: 100%;
+        height:  calc(100vh - 44px - 49px );
         overflow: hidden;
     }
 

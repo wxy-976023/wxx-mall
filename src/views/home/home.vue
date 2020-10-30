@@ -78,15 +78,12 @@ ref如果绑定再元素上的，那么this.$refs.refname获取到得是一个�
             }
         },
         activated(){
-            this.$refs.scroll && this.$refs.scroll.scrollTo(0,this.saveY,0)
+            // 下面的顺序注意一下，反过来就是刚定位好的又被刷新了
             this.$refs.scroll && this.$refs.scroll.refresh()
-            // console.log('active')
-            // console.log(this.saveY)
+            this.$refs.scroll && this.$refs.scroll.scrollTo(0,this.saveY,0)
         },
         //离开首页时
         deactivated(){
-            // console.log('deactive')
-            // console.log(this.saveY)
             //1.保存Y值
             this.saveY=this.$refs.scroll.getScrollY();
             //2.取消全局事件监听
